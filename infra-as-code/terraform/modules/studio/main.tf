@@ -25,9 +25,23 @@ resource "twilio_studio_flows_v2" "voice" {
   definition = templatefile("../../studio/voice-flow.json", local.params)
 }
 
+resource "twilio_studio_flows_v2" "ziplendHomepage" {
+  friendly_name  = "Ziplend Homepage"
+  status         = "published"
+  definition = templatefile("../../studio/ziplend-homepage.json", local.params)
+}
+
+resource "twilio_studio_flows_v2" "incomingLiveTransfers" {
+  friendly_name  = "Incoming Live Transfers"
+  status         = "published"
+  definition = templatefile("../../studio/incoming-live-transfers.json", local.params)
+}
+
 locals{
   params = {
     "WORKFLOW_SID_ASSIGN_TO_ANYONE" = var.workflow_sid_assign_to_anyone
+    "WORKFLOW_SID_ZIPLEND_HOMEPAGE" = var.workflow_sid_ziplend_homepage
+    "WORKFLOW_SID_INCOMING_TRANSFERS" = var.workflow_sid_incoming_transfers
     "SERVERLESS_DOMAIN" = var.serverless_domain
     "SERVERLESS_SID" = var.serverless_sid
     "SERVERLESS_ENV_SID" = var.serverless_env_sid

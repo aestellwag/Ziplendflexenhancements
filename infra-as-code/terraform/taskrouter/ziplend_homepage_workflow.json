@@ -1,0 +1,36 @@
+{
+  "task_routing": {
+    "filters": [
+      {
+        "filter_friendly_name": "customer_service",
+        "expression": "target=='customer_service'",
+        "targets": [
+          {
+            "queue": "${QUEUE_SID_CUSTOMER_SERVICE}"
+          }
+        ]
+      },
+      {
+        "filter_friendly_name": "pl_group",
+        "expression": "target=='pl_group'",
+        "targets": [
+          {
+            "queue": "${QUEUE_SID_PL_GROUP}"
+          }
+        ]
+      },
+      {
+        "filter_friendly_name": "mortgage_group",
+        "expression": "target=='mortgage_group'",
+        "targets": [
+          {
+            "queue": "${QUEUE_SID_MORTGAGE_GROUP}"
+          }
+        ]
+      }
+    ],
+    "default_filter": {
+      "queue": "${QUEUE_SID_EVERYONE}"
+    }
+  }
+}
