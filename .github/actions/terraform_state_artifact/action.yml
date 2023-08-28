@@ -155,6 +155,7 @@ runs:
           $tf_queue_sid_template_example_sales = $queues | where {$_.friendlyName -eq 'Template Example Sales'} | Select -property sid -ExpandProperty sid
           $tf_queue_sid_template_example_support = $queues | where {$_.friendlyName -eq 'Template Example Support'} | Select -property sid -ExpandProperty sid
           $tf_queue_sid_internal_calls = $queues | where {$_.friendlyName -eq 'Internal Calls'} | Select -property sid -ExpandProperty sid
+          $tf_queue_sid_customer_service = $queues | where {$_.friendlyName -eq 'Customer Service'} | Select -property sid -ExpandProperty sid
 
           if ($tf_queue_sid_everyone) {
             terraform import module.taskrouter.twilio_taskrouter_workspaces_task_queues_v1.everyone $tf_workspace_sid/$tf_queue_sid_everyone
@@ -175,6 +176,13 @@ runs:
             terraform import module.taskrouter.twilio_taskrouter_workspaces_task_queues_v1.internal_calls $tf_workspace_sid/$tf_queue_sid_internal_calls
             if ($LASTEXITCODE) { exit $LASTEXITCODE } 
           }   
+
+          if ($tf_queue_sid_customer_service) {
+            terraform import module.taskrouter.twilio_taskrouter_workspaces_task_queues_v1.customer_service $tf_workspace_sid/$tf_queue_sid_customer_service
+            if ($LASTEXITCODE) { exit $LASTEXITCODE } 
+          }
+
+
           echo "   - :white_check_mark: Task Router - Queues"  >> $env:GITHUB_STEP_SUMMARY
           # channels
           $channels = twilio api:taskrouter:v1:workspaces:task-channels:list --workspace-sid $tf_workspace_sid -o json | ConvertFrom-Json
