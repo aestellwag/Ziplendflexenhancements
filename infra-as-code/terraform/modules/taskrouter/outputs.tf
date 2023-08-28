@@ -42,4 +42,3 @@ output "workflow_incoming_transfers_sid" {
   value = twilio_taskrouter_workspaces_workflows_v1.incoming_live_transfers_workflow.sid
   description = "Incoming Transfers SID"
 }
-
