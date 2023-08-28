@@ -38,7 +38,7 @@ output "workflow_ziplend_homepage_sid" {
   description = "Zipland Homepage SID"
 }
 
-output "workflow_incoming_transfers_sid" {
+output "workflow_incoming_live_transfers_sid" {
   value = twilio_taskrouter_workspaces_workflows_v1.incoming_live_transfers_workflow.sid
-  description = "Incoming Transfers SID"
+  description = "Incoming Live Transfers SID"
 }
