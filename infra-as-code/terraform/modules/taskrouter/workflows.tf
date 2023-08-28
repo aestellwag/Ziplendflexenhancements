@@ -22,10 +22,10 @@ resource "twilio_taskrouter_workspaces_workflows_v1" "internal_call" {
   configuration = templatefile("../../taskrouter/internal_call.json", local.params)
 }
 
-resource "twilio_taskrouter_workspaces_workflows_v1" "zipland_homepage_workflow" {
+resource "twilio_taskrouter_workspaces_workflows_v1" "ziplend_homepage_workflow" {
   workspace_sid = twilio_taskrouter_workspaces_v1.flex.sid
   friendly_name = "Zipland_Homepage_Workflow"
-  configuration = templatefile("../../taskrouter/zipland_homepage_workflow.json", local.params)
+  configuration = templatefile("../../taskrouter/ziplend_homepage_workflow.json", local.params)
 }
 
 resource "twilio_taskrouter_workspaces_workflows_v1" "incoming_live_transfers_workflow" {
