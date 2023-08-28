@@ -49,7 +49,7 @@
           "x": 140,
           "y": 290
         },
-        "workflow": "${WORKFLOW_SID_INCOMING_TRANSFERS}",
+        "workflow": "${WORKFLOW_SID_INCOMING_LIVE_TRANSFERS}",
         "channel": "${VOICE_CHANNEL_SID}",
         "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"pl_group\"}",
         "waitUrlMethod": "POST"

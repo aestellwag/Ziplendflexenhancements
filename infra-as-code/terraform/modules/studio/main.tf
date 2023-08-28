@@ -41,7 +41,7 @@ locals{
   params = {
     "WORKFLOW_SID_ASSIGN_TO_ANYONE" = var.workflow_sid_assign_to_anyone
     "WORKFLOW_SID_ZIPLEND_HOMEPAGE" = var.workflow_sid_ziplend_homepage
-    "WORKFLOW_SID_INCOMING_TRANSFERS" = var.workflow_sid_incoming_transfers
+    "WORKFLOW_SID_INCOMING_LIVE_TRANSFERS" = var.workflow_sid_incoming_live_transfers
     "SERVERLESS_DOMAIN" = var.serverless_domain
     "SERVERLESS_SID" = var.serverless_sid
     "SERVERLESS_ENV_SID" = var.serverless_env_sid
