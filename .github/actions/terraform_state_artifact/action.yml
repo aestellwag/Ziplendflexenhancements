@@ -1,28 +1,28 @@
-name: 'terraform_state_artifact'
-description: 'Sets up and runs Terraform, and creates an encrypted Terraform artifact'
-author: 'Sturla Bragason'
+name: "terraform_state_artifact"
+description: "Sets up and runs Terraform, and creates an encrypted Terraform artifact"
+author: "Sturla Bragason"
 inputs:
   encryptionkey:
-    description: 'Used to read artifact and as a key to encrypt and decrypt the state file artifact'
+    description: "Used to read artifact and as a key to encrypt and decrypt the state file artifact"
     required: true
   apply:
-    description: 'terraform apply'
+    description: "terraform apply"
     required: false
     default: true
   custom_plan_flags:
-    description: 'Add custom flags to the terraform plan command'
+    description: "Add custom flags to the terraform plan command"
     required: false
-    default: ''
+    default: ""
   custom_apply_flags:
-    description: 'Add custom flags to the terraform apply command'
+    description: "Add custom flags to the terraform apply command"
     required: false
-    default: ''
+    default: ""
   path:
-    description: 'Terraform configuration path'
+    description: "Terraform configuration path"
     required: false
-    default: ''
+    default: ""
   environment:
-    description: 'Environment associated with the state file'
+    description: "Environment associated with the state file"
     required: true
 
 runs:
@@ -65,7 +65,7 @@ runs:
         npm install -g twilio-cli
 
         terraform init
-        
+
         #############################################################################
         ### THE FOLLOWING CAPTURES THE SIDS FROM THE ENVIRONMENT AND IMPORTS THEM
         ### INTO TERRAFORM IF THEY EXIST AND THERE IS NO CURRENT STATE FILE
@@ -126,8 +126,9 @@ runs:
           $tf_workflow_sid_chat_transfer = $workflows | where {$_.friendlyName -eq 'Chat Transfer'} | Select -property sid -ExpandProperty sid
           $tf_workflow_sid_callback = $workflows | where {$_.friendlyName -eq 'Callback'} | Select -property sid -ExpandProperty sid
           $tf_workflow_sid_internal_call = $workflows | where {$_.friendlyName -eq 'Internal Call'} | Select -property sid -ExpandProperty sid
-
-
+          $tf_workflow_sid_ziplend_homepage = $workflows | where {$_.friendlyName -eq 'Zipland_Homepage_Workflow'} | Select -property sid -ExpandProperty sid
+          $tf_workflow_sid_incoming_live_transfers = $workflows | where {$_.friendlyName -eq 'Incoming_Live_Transfers_Workflow'} | Select -property sid -ExpandProperty sid
+          
           if ($tf_workflow_sid_assign_to_anyone) {
             terraform import module.taskrouter.twilio_taskrouter_workspaces_workflows_v1.assign_to_anyone $tf_workspace_sid/$tf_workflow_sid_assign_to_anyone
             if ($LASTEXITCODE) { exit $LASTEXITCODE } 
@@ -147,6 +148,17 @@ runs:
             terraform import module.taskrouter.twilio_taskrouter_workspaces_workflows_v1.internal_call $tf_workspace_sid/$tf_workflow_sid_internal_call
             if ($LASTEXITCODE) { exit $LASTEXITCODE } 
           }
+
+          if ($tf_workflow_sid_ziplend_homepage) {
+            terraform import module.taskrouter.twilio_taskrouter_workspaces_workflows_v1.ziplend_homepage_workflow $tf_workspace_sid/$tf_workflow_sid_ziplend_homepage
+            if ($LASTEXITCODE) { exit $LASTEXITCODE } 
+          }
+
+          if ($tf_workflow_sid_incoming_live_transfers) {
+            terraform import module.taskrouter.twilio_taskrouter_workspaces_workflows_v1.incoming_live_transfers_workflow $tf_workspace_sid/$tf_workflow_sid_incoming_live_transfers
+            if ($LASTEXITCODE) { exit $LASTEXITCODE } 
+          }
+
           echo "   - :white_check_mark: Task Router - Workflows"  >> $env:GITHUB_STEP_SUMMARY
           # queues
           $queues = twilio api:taskrouter:v1:workspaces:task-queues:list --workspace-sid $tf_workspace_sid -o json | ConvertFrom-Json
@@ -156,7 +168,9 @@ runs:
           $tf_queue_sid_template_example_support = $queues | where {$_.friendlyName -eq 'Template Example Support'} | Select -property sid -ExpandProperty sid
           $tf_queue_sid_internal_calls = $queues | where {$_.friendlyName -eq 'Internal Calls'} | Select -property sid -ExpandProperty sid
           $tf_queue_sid_customer_service = $queues | where {$_.friendlyName -eq 'Customer Service'} | Select -property sid -ExpandProperty sid
-
+          $tf_queue_sid_pl_group = $queues | where {$_.friendlyName -eq 'PL Group'} | Select -property sid -ExpandProperty sid
+          $tf_queue_sid_mortgage_group = $queues | where {$_.friendlyName -eq 'Mortgage Group'} | Select -property sid -ExpandProperty sid
+          
           if ($tf_queue_sid_everyone) {
             terraform import module.taskrouter.twilio_taskrouter_workspaces_task_queues_v1.everyone $tf_workspace_sid/$tf_queue_sid_everyone
             if ($LASTEXITCODE) { exit $LASTEXITCODE } 
@@ -182,6 +196,15 @@ runs:
             if ($LASTEXITCODE) { exit $LASTEXITCODE } 
           }
 
+          if ($tf_queue_sid_pl_group) {
+            terraform import module.taskrouter.twilio_taskrouter_workspaces_task_queues_v1.pl_group $tf_workspace_sid/$tf_queue_sid_pl_group
+            if ($LASTEXITCODE) { exit $LASTEXITCODE } 
+          }
+
+          if ($tf_queue_sid_mortgage_group) {
+            terraform import module.taskrouter.twilio_taskrouter_workspaces_task_queues_v1.mortgage_group $tf_workspace_sid/$tf_queue_sid_mortgage_group
+            if ($LASTEXITCODE) { exit $LASTEXITCODE } 
+          }
 
           echo "   - :white_check_mark: Task Router - Queues"  >> $env:GITHUB_STEP_SUMMARY
           # channels
@@ -256,7 +279,7 @@ runs:
           echo "   - :white_check_mark: Task Router - Activities"  >> $env:GITHUB_STEP_SUMMARY
           ### STUDIO ###
           $flows = twilio api:studio:v2:flows:list -o json | ConvertFrom-Json
-    
+
           $tf_flow_sid_voice_ivr = $flows | where {$_.friendlyName -eq 'Voice IVR'} | Select -property sid -ExpandProperty sid
           $tf_flow_sid_messaging_flow = $flows | where {$_.friendlyName -eq 'Messaging Flow'} | Select -property sid -ExpandProperty sid
           $tf_flow_sid_chat_flow = $flows | where {$_.friendlyName -eq 'Chat Flow'} | Select -property sid -ExpandProperty sid
@@ -309,7 +332,7 @@ runs:
         if-no-files-found: error
     - id: report_complete
       run: |
-          echo " - :white_check_mark: upload of terraform state file complete"  >> $env:GITHUB_STEP_SUMMARY
+        echo " - :white_check_mark: upload of terraform state file complete"  >> $env:GITHUB_STEP_SUMMARY
       shell: pwsh
     - id: report-exit-code
       if: ${{ env.APPLY_EXIT_CODE }} != null
@@ -317,5 +340,5 @@ runs:
       run: |
         exit ${{ env.APPLY_EXIT_CODE }}
 branding:
-  icon: 'cloud'
-  color: 'gray-dark'
+  icon: "cloud"
+  color: "gray-dark"
