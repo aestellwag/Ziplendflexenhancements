@@ -150,13 +150,15 @@
         }
       ],
       "properties": {
+        "waitUrl": "https://${SERVERLESS_DOMAIN}/features/callback-and-voicemail/studio/wait-experience?mode=initialize",
         "offset": {
           "x": 0,
           "y": 1010
         },
         "workflow": "${WORKFLOW_SID_ZIPLEND_HOMEPAGE}",
         "channel": "${VOICE_CHANNEL_SID}",
-        "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"{{flow.variables.target}}\"}"
+        "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"{{flow.variables.target}}\"}",
+        "waitUrlMethod": "POST"
       }
     },
     {
