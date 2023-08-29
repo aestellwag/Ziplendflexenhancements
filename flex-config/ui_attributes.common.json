@@ -9,23 +9,23 @@
       "activity_skill_filter": {
         "enabled": false,
         "rules": {
-          "On a Task" : {
+          "On a Task": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "On a Task, No ACD" : {
+          "On a Task, No ACD": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "Wrap Up" : {
+          "Wrap Up": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "Wrap Up, No ACD" : {
+          "Wrap Up, No ACD": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "Offline" : {
+          "Offline": {
             "required_skill": null,
             "sort_order": 100
           }
@@ -54,7 +54,7 @@
         "hold_workaround": false
       },
       "enhanced_crm_container": {
-        "enabled": false,
+        "enabled": true,
         "url": "https://www.bing.com/search?q={{task.from}}",
         "should_display_url_when_no_tasks": false,
         "display_url_when_no_tasks": "https://www.bing.com"
@@ -226,10 +226,7 @@
         "per_queue": {
           "exampleQueueSid": {
             "require_disposition": true,
-            "dispositions": [
-              "Promotional Sale",
-              "Renewal"
-            ]
+            "dispositions": ["Promotional Sale", "Renewal"]
           }
         }
       },
