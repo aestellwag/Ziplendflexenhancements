@@ -29,3 +29,28 @@ resource "twilio_taskrouter_workspaces_task_queues_v1" "internal_calls" {
   max_reserved_workers = 1
   task_order = "FIFO"
 }
+
+resource "twilio_taskrouter_workspaces_task_queues_v1" "customer_service" {
+  workspace_sid  = twilio_taskrouter_workspaces_v1.flex.sid
+  friendly_name  = "Customer Service"
+  target_workers = "routing.skills HAS 'customer_service'"
+  max_reserved_workers = 50
+  task_order = "FIFO"
+}
+
+resource "twilio_taskrouter_workspaces_task_queues_v1" "pl_group" {
+  workspace_sid  = twilio_taskrouter_workspaces_v1.flex.sid
+  friendly_name  = "PL Group"
+  target_workers = "routing.skills HAS 'pl_group'"
+  max_reserved_workers = 50
+  task_order = "FIFO"
+}
+
+resource "twilio_taskrouter_workspaces_task_queues_v1" "mortgage_group" {
+  workspace_sid  = twilio_taskrouter_workspaces_v1.flex.sid
+  friendly_name  = "Mortgage Group"
+  target_workers = "routing.skills HAS 'mortgage_group'"
+  max_reserved_workers = 50
+  task_order = "FIFO"
+}
+

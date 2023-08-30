@@ -1,0 +1,18 @@
+{
+  "task_routing": {
+    "filters": [
+      {
+        "filter_friendly_name": "PL Group",
+        "expression": "target=='pl_group'",
+        "targets": [
+          {
+            "queue": "${QUEUE_SID_PL_GROUP}"
+          }
+        ]
+      }
+    ],
+    "default_filter": {
+      "queue": "${QUEUE_SID_EVERYONE}"
+    }
+  }
+}

@@ -33,3 +33,12 @@ output "voice_channel_sid" {
   description = "Voice channel SID"
 }
 
+output "workflow_ziplend_homepage_sid" {
+  value = twilio_taskrouter_workspaces_workflows_v1.ziplend_homepage_workflow.sid
+  description = "Zipland Homepage SID"
+}
+
+output "workflow_incoming_live_transfers_sid" {
+  value = twilio_taskrouter_workspaces_workflows_v1.incoming_live_transfers_workflow.sid
+  description = "Incoming Live Transfers SID"
+}

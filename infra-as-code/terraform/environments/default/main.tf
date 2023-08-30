@@ -23,6 +23,8 @@ module "studio" {
   workflow_sid_chat_transfer = module.taskrouter.workflow_sid_chat_transfer
   workflow_sid_callback = module.taskrouter.workflow_sid_callback
   workflow_sid_internal_call = module.taskrouter.workflow_sid_internal_call
+  workflow_sid_ziplend_homepage = module.taskrouter.workflow_ziplend_homepage_sid
+  workflow_sid_incoming_live_transfers = module.taskrouter.workflow_incoming_live_transfers_sid
   chat_channel_sid = module.taskrouter.chat_channel_sid
   voice_channel_sid = module.taskrouter.voice_channel_sid
   serverless_domain = var.SERVERLESS_DOMAIN

@@ -1,0 +1,244 @@
+{
+  "description": "A New Flow",
+  "states": [
+    {
+      "name": "Trigger",
+      "type": "trigger",
+      "transitions": [
+        {
+          "event": "incomingMessage"
+        },
+        {
+          "next": "IVR_answers",
+          "event": "incomingCall"
+        },
+        {
+          "event": "incomingConversationMessage"
+        },
+        {
+          "event": "incomingRequest"
+        },
+        {
+          "event": "incomingParent"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "IVR_answers",
+      "type": "gather-input-on-call",
+      "transitions": [
+        {
+          "next": "Menu_Select",
+          "event": "keypress"
+        },
+        {
+          "event": "speech"
+        },
+        {
+          "event": "timeout"
+        }
+      ],
+      "properties": {
+        "number_of_digits": 1,
+        "speech_timeout": "auto",
+        "offset": {
+          "x": 130,
+          "y": 220
+        },
+        "loop": 3,
+        "finish_on_key": "#",
+        "say": "Thank you for calling Ziplend.  Please press 1 if you are in process of a personal or mortgage loan.  Please press 2 if you would like to apply for a personal loan.  Please press 3 if you are interested in a mortgage loan.",
+        "stop_gather": true,
+        "gather_language": "en",
+        "profanity_filter": "true",
+        "timeout": 10
+      }
+    },
+    {
+      "name": "Menu_Select",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "menu_select_novalidoption",
+          "event": "noMatch"
+        },
+        {
+          "next": "set_target_customer_service",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to 1",
+              "arguments": ["{{widgets.IVR_answers.Digits}}"],
+              "type": "equal_to",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "next": "set_target_pl_group",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to 2",
+              "arguments": ["{{widgets.IVR_answers.Digits}}"],
+              "type": "equal_to",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "next": "set_target_mortgage_group",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to 3",
+              "arguments": ["{{widgets.IVR_answers.Digits}}"],
+              "type": "equal_to",
+              "value": "3"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{widgets.IVR_answers.Digits}}",
+        "offset": {
+          "x": 170,
+          "y": 470
+        }
+      }
+    },
+    {
+      "name": "set_target_customer_service",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "send_to_flex_1",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "customer_service",
+            "key": "target"
+          }
+        ],
+        "offset": {
+          "x": 20,
+          "y": 760
+        }
+      }
+    },
+    {
+      "name": "send_to_flex_1",
+      "type": "send-to-flex",
+      "transitions": [
+        {
+          "event": "callComplete"
+        },
+        {
+          "event": "failedToEnqueue"
+        },
+        {
+          "event": "callFailure"
+        }
+      ],
+      "properties": {
+        "waitUrl": "https://${SERVERLESS_DOMAIN}/features/callback-and-voicemail/studio/wait-experience?mode=initialize",
+        "offset": {
+          "x": 0,
+          "y": 1010
+        },
+        "workflow": "${WORKFLOW_SID_ZIPLEND_HOMEPAGE}",
+        "channel": "${VOICE_CHANNEL_SID}",
+        "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"{{flow.variables.target}}\"}",
+        "waitUrlMethod": "POST"
+      }
+    },
+    {
+      "name": "set_target_pl_group",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "send_to_flex_1",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "pl_group",
+            "key": "target"
+          }
+        ],
+        "offset": {
+          "x": 370,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "set_target_mortgage_group",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "send_to_flex_1",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "mortgage_group",
+            "key": "target"
+          }
+        ],
+        "offset": {
+          "x": 720,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "menu_select_novalidoption",
+      "type": "gather-input-on-call",
+      "transitions": [
+        {
+          "next": "Menu_Select",
+          "event": "keypress"
+        },
+        {
+          "event": "speech"
+        },
+        {
+          "next": "set_target_customer_service",
+          "event": "timeout"
+        }
+      ],
+      "properties": {
+        "speech_timeout": "auto",
+        "offset": {
+          "x": -440,
+          "y": 740
+        },
+        "loop": 1,
+        "finish_on_key": "#",
+        "say": "Sorry I didnt get that.  Please press 1 if you are in process of a personal or mortgage loan.  Please press 2 if you would like to apply for a personal loan.  Please press 3 if you are interested in a mortgage loan.",
+        "stop_gather": true,
+        "gather_language": "en",
+        "profanity_filter": "true",
+        "timeout": 5
+      }
+    }
+  ],
+  "initial_state": "Trigger",
+  "flags": {
+    "allow_concurrent_calls": true
+  }
+}

@@ -7,6 +7,24 @@ variable "workflow_sid_assign_to_anyone" {
   }
 }
 
+variable "workflow_sid_ziplend_homepage" {
+  type        = string
+  description = "SID of the Ziplend Homepage workflow"
+  validation {
+    condition     = length(var.workflow_sid_ziplend_homepage) > 2 && substr(var.workflow_sid_ziplend_homepage, 0, 2) == "WW"
+    error_message = "workflow_sid_ziplend_homepage expected to start with \"WW\"."
+  }
+}
+
+variable "workflow_sid_incoming_live_transfers" {
+  type        = string
+  description = "SID of the Incoming Live Transfers workflow"
+  validation {
+    condition     = length(var.workflow_sid_incoming_live_transfers) > 2 && substr(var.workflow_sid_incoming_live_transfers, 0, 2) == "WW"
+    error_message = "workflow_sid_incoming_live_transfers expected to start with \"WW\"."
+  }
+}
+
 variable "workflow_sid_chat_transfer" {
   type        = string
   description = "SID of the Chat Transfer workflow"

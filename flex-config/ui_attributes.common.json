@@ -7,25 +7,25 @@
   "custom_data": {
     "features": {
       "activity_skill_filter": {
-        "enabled": true,
+        "enabled": false,
         "rules": {
-          "On a Task" : {
+          "On a Task": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "On a Task, No ACD" : {
+          "On a Task, No ACD": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "Wrap Up" : {
+          "Wrap Up": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "Wrap Up, No ACD" : {
+          "Wrap Up, No ACD": {
             "required_skill": "system_activities",
             "sort_order": 0
           },
-          "Offline" : {
+          "Offline": {
             "required_skill": null,
             "sort_order": 100
           }
@@ -42,12 +42,12 @@
         "enabled": true
       },
       "conversation_transfer": {
-        "enabled": true,
+        "enabled": false,
         "cold_transfer": true,
         "multi_participant": true
       },
       "chat_to_video_escalation": {
-        "enabled": true
+        "enabled": false
       },
       "conference": {
         "enabled": true,
@@ -60,17 +60,17 @@
         "display_url_when_no_tasks": "https://www.bing.com"
       },
       "internal_call": {
-        "enabled": true
+        "enabled": false
       },
       "scrollable_activities": {
-        "enabled": true
+        "enabled": false
       },
       "supervisor_barge_coach": {
         "enabled": true,
         "agent_coaching_panel": true,
         "supervisor_monitor_panel": true,
-        "agent_assistance": true,
-        "supervisor_alert_toggle": true
+        "agent_assistance": false,
+        "supervisor_alert_toggle": false
       },
       "omni_channel_capacity_management": {
         "enabled": false,
@@ -101,7 +101,7 @@
         }
       },
       "teams_view_filters": {
-        "enabled": true,
+        "enabled": false,
         "log_filters": false,
         "applied_filters": {
           "activities": true,
@@ -139,7 +139,7 @@
         "enabled": true
       },
       "schedule_manager": {
-        "enabled": true
+        "enabled": false
       },
       "multi_call": {
         "enabled": false
@@ -151,7 +151,7 @@
         "enabled": false
       },
       "agent_automation": {
-        "enabled": true,
+        "enabled": false,
         "configuration": [
           {
             "channel": "voice",
@@ -174,22 +174,22 @@
         ]
       },
       "supervisor_complete_reservation": {
-        "enabled": true,
+        "enabled": false,
         "outcome": "Completed by supervisor"
       },
       "canned_responses": {
-        "enabled": true,
+        "enabled": false,
         "location": "MessageInputActions"
       },
       "keyboard_shortcuts": {
-        "enabled": true
+        "enabled": false
       },
       "custom_hold_music": {
         "enabled": false,
         "url": ""
       },
       "custom_transfer_directory": {
-        "enabled": true,
+        "enabled": false,
         "use_paste_search_icon": false,
         "queue": {
           "enabled": true,
@@ -213,7 +213,7 @@
         }
       },
       "dispositions": {
-        "enabled": true,
+        "enabled": false,
         "enable_notes": true,
         "require_disposition": false,
         "global_dispositions": [
@@ -226,32 +226,29 @@
         "per_queue": {
           "exampleQueueSid": {
             "require_disposition": true,
-            "dispositions": [
-              "Promotional Sale",
-              "Renewal"
-            ]
+            "dispositions": ["Promotional Sale", "Renewal"]
           }
         }
       },
       "emoji_picker": {
-        "enabled": true
+        "enabled": false
       },
       "attribute_viewer": {
-        "enabled": true,
+        "enabled": false,
         "enabled_for_agents": false
       },
       "admin_ui": {
-        "enabled": true
+        "enabled": false
       },
       "localization": {
         "enabled": false,
         "show_menu": true
       },
       "park_interaction": {
-        "enabled": true
+        "enabled": false
       },
       "teams_view_enhancements": {
-        "enabled": true,
+        "enabled": false,
         "highlight_handle_time": true,
         "handle_time_warning_threshold": 180,
         "handle_time_exceeded_threshold": 300,
