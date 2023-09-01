@@ -178,7 +178,7 @@
         "outcome": "Completed by supervisor"
       },
       "canned_responses": {
-        "enabled": false,
+        "enabled": true,
         "location": "MessageInputActions"
       },
       "keyboard_shortcuts": {
