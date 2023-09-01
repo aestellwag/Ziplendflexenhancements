@@ -37,8 +37,8 @@ resource "twilio_taskrouter_workspaces_workflows_v1" "incoming_live_transfers_wo
 locals{
   params = {
     "QUEUE_SID_EVERYONE" = twilio_taskrouter_workspaces_task_queues_v1.everyone.sid
-    "QUEUE_SID_TEMPLATE_EXAMPLE_SALES" = twilio_taskrouter_workspaces_task_queues_v1.template_example_sales.sid
-    "QUEUE_SID_TEMPLATE_EXAMPLE_SUPPORT" = twilio_taskrouter_workspaces_task_queues_v1.template_example_support.sid
+    # "QUEUE_SID_TEMPLATE_EXAMPLE_SALES" = twilio_taskrouter_workspaces_task_queues_v1.template_example_sales.sid
+    # "QUEUE_SID_TEMPLATE_EXAMPLE_SUPPORT" = twilio_taskrouter_workspaces_task_queues_v1.template_example_support.sid
     "QUEUE_SID_INTERNAL_CALLS" = twilio_taskrouter_workspaces_task_queues_v1.internal_calls.sid
     "QUEUE_SID_CUSTOMER_SERVICE" = twilio_taskrouter_workspaces_task_queues_v1.customer_service.sid
     "QUEUE_SID_PL_GROUP" = twilio_taskrouter_workspaces_task_queues_v1.pl_group.sid
