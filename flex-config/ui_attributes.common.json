@@ -261,7 +261,7 @@
         }
       },
       "send_to_voice_message": {
-        "enabled": false
+        "enabled": true
       }
     }
   }
