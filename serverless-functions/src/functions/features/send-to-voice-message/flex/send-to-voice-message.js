@@ -27,7 +27,6 @@ exports.handler = prepareFlexFunction(requiredParameters, async (context, event,
     // Play the TwiML message to the participant
     const client = context.getTwilioClient();
     const voiceURL = voiceMessage;
-    console.warn(voiceMessage);
     await client.conferences(conference).participants(customerParticipant).update({
       announceUrl: voiceURL,
     });
