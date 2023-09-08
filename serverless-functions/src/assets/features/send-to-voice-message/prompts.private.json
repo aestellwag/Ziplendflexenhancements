@@ -1,0 +1,17 @@
+{
+  "url": "https://ziplend-6008.twil.io/andrewstellwag/",
+  "people": [
+    {
+      "name": "andrewstellwag",
+      "prompts": []
+    },
+    {
+      "name": "steve",
+      "prompts": ["PL-Message", "Mortgage-Group-Message"]
+    },
+    {
+      "name": "Tom",
+      "prompts": ["PL-Message", "Mortgage-Group-Message"]
+    }
+  ]
+}
