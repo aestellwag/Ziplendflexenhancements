@@ -15,7 +15,8 @@ exports.handler = prepareFlexFunction(requiredParameters, async (context, event,
     const openData = Runtime.getAssets()[assetPath].open;
     const data = JSON.parse(openData());
     const filteredData = { ...data };
-    filteredData.people = data.people.filter((person) => person.name === fullName);
+    // Adding a replace for spaces and capital letters to normalize the fullNames, just incase they are not typed correctly in the prompst.json asset
+    filteredData.people = data.people.filter((person) => person.name.replace(/\s+/g, '').toLowerCase() === fullName);
     response.setBody(filteredData);
     return callback(null, response);
   } catch (error) {
