@@ -1,17 +1,17 @@
 {
-  "url": "https://ziplend-6008.twil.io/andrewstellwag/",
+  "url": "https://ziplend-8409.twil.io/",
   "people": [
     {
       "name": "andrewstellwag",
-      "prompts": []
+      "prompts": ["PL-Message.mp3", "Mortgage-Group-Message.mp3"]
     },
     {
-      "name": "steve",
-      "prompts": ["PL-Message", "Mortgage-Group-Message"]
+      "name": "stevelogan",
+      "prompts": ["PL-Message.mp3", "Mortgage-Group-Message.mp3"]
     },
     {
-      "name": "Tom",
-      "prompts": ["PL-Message", "Mortgage-Group-Message"]
+      "name": "tompowers",
+      "prompts": ["PL-Message.mp3", "Mortgage-Group-Message.mp3"]
     }
   ]
 }

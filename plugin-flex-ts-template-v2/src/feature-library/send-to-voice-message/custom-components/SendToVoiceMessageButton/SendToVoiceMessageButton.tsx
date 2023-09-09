@@ -16,6 +16,7 @@ export const SendToVoiceMessageButton = ({ task }: SendToVoiceMessageButtonProps
   const [voiceUrl, setVoiceUrl] = useState<string | null>(null);
   const myWorkerSID: string = useFlexSelector((state) => state?.flex?.worker?.worker?.sid) || '';
   let fullName: string = useFlexSelector((state) => state?.flex?.worker?.worker?.fullName) || '';
+  fullName = fullName.replace(/\s+/g, '').toLowerCase();
   const menu = useMenuState({
     placement: 'top-start',
     wrap: 'horizontal',
@@ -30,7 +31,7 @@ export const SendToVoiceMessageButton = ({ task }: SendToVoiceMessageButtonProps
     const agentParticipant: string = agentConferenceObject?.mediaProperties.callSid || '';
     const customerConferenceObject = conferenceObject?.source.channelParticipants.find((p) => p.type === 'customer');
     const customerParticipant: string = customerConferenceObject?.mediaProperties.callSid || '';
-    const voiceMessage: string = `${voiceUrl}${voicePrompt}.mp3`;
+    const voiceMessage: string = `${voiceUrl}${fullName}/${voicePrompt}`;
     SendVoiceMessageService.sendVoiceMessageAndUpdateParticipant(
       conference,
       agentParticipant,
@@ -42,7 +43,6 @@ export const SendToVoiceMessageButton = ({ task }: SendToVoiceMessageButtonProps
   useEffect(() => {
     const fetchPrompts = async () => {
       try {
-        fullName = fullName.replace(/\s+/g, '').toLowerCase();
         const voiceMessageList = await SendVoiceMessageService.queryAssets(fullName);
         setPrompts(voiceMessageList.people[0].prompts);
         setVoiceUrl(voiceMessageList.url);

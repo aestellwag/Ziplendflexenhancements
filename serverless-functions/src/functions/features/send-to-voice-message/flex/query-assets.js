@@ -14,12 +14,8 @@ exports.handler = prepareFlexFunction(requiredParameters, async (context, event,
     // load data
     const openData = Runtime.getAssets()[assetPath].open;
     const data = JSON.parse(openData());
-    const filteredData = { ...data }; // create the copy of original data
+    const filteredData = { ...data };
     filteredData.people = data.people.filter((person) => person.name === fullName);
-    console.warn('Original');
-    console.warn(data);
-    console.warn('Filtered');
-    console.warn(filteredData);
     response.setBody(filteredData);
     return callback(null, response);
   } catch (error) {
