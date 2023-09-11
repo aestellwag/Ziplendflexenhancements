@@ -34,6 +34,12 @@ resource "twilio_taskrouter_workspaces_workflows_v1" "incoming_live_transfers_wo
   configuration = templatefile("../../taskrouter/incoming_live_transfers_workflow.json", local.params)
 }
 
+resource "twilio_taskrouter_workspaces_workflows_v1" "direct_line" {
+  workspace_sid = twilio_taskrouter_workspaces_v1.flex.sid
+  friendly_name = "Direct Line"
+  configuration = templatefile("../../taskrouter/direct_line.json", local.params)
+}
+
 locals{
   params = {
     "QUEUE_SID_EVERYONE" = twilio_taskrouter_workspaces_task_queues_v1.everyone.sid
@@ -43,6 +49,7 @@ locals{
     "QUEUE_SID_CUSTOMER_SERVICE" = twilio_taskrouter_workspaces_task_queues_v1.customer_service.sid
     "QUEUE_SID_PL_GROUP" = twilio_taskrouter_workspaces_task_queues_v1.pl_group.sid
     "QUEUE_SID_MORTGAGE_GROUP" = twilio_taskrouter_workspaces_task_queues_v1.mortgage_group.sid
+    "QUEUE_SID_DIRECT_LINE" = twilio_taskrouter_workspaces_task_queues_v1.direct_line.sid
   }
 
 }

@@ -23,6 +23,11 @@ output "workflow_sid_internal_call" {
   description = "internal call feature workflow SID"
 }
 
+output "workflow_sid_direct_line" {
+  value = twilio_taskrouter_workspaces_workflows_v1.workflow_direct_line.sid
+  description = "direct line feature workflow SID"
+}
+
 output "chat_channel_sid" {
   value = twilio_taskrouter_workspaces_task_channels_v1.chat.sid
   description = "Chat channel SID"

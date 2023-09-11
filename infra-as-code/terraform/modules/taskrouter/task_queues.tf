@@ -54,3 +54,11 @@ resource "twilio_taskrouter_workspaces_task_queues_v1" "mortgage_group" {
   task_order = "FIFO"
 }
 
+resource "twilio_taskrouter_workspaces_task_queues_v1" "direct_line" {
+  workspace_sid  = twilio_taskrouter_workspaces_v1.flex.sid
+  friendly_name  = "Direct Line"
+  target_workers = "routing.skills HAS 'direct_line'"
+  max_reserved_workers = 50
+  task_order = "FIFO"
+}
+

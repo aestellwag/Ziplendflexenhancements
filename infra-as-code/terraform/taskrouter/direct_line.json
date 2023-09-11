@@ -1,0 +1,17 @@
+{
+  "task_routing": {
+    "filters": [
+      {
+        "filter_friendly_name": "Direct Line To Worker",
+        "expression": "1==1",
+        "targets": [
+          {
+            "queue": "${QUEUE_SID_DIRECT_LINE}",
+            "known_worker_sid": "task.workerSid",
+            "expression": "1==1"
+          }
+        ]
+      }
+    ]
+  }
+}

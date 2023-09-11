@@ -37,11 +37,18 @@ resource "twilio_studio_flows_v2" "incomingLiveTransfers" {
   definition = templatefile("../../studio/incoming-live-transfers.json", local.params)
 }
 
+resource "twilio_studio_flows_v2" "directLine" {
+  friendly_name  = "Direct Line"
+  status         = "published"
+  definition = templatefile("../../studio/direct-line.json", local.params)
+}
+
 locals{
   params = {
     "WORKFLOW_SID_ASSIGN_TO_ANYONE" = var.workflow_sid_assign_to_anyone
     "WORKFLOW_SID_ZIPLEND_HOMEPAGE" = var.workflow_sid_ziplend_homepage
     "WORKFLOW_SID_INCOMING_LIVE_TRANSFERS" = var.workflow_sid_incoming_live_transfers
+    "WORKFLOW_SID_DIRECT_LINE" = var.workflow_sid_direct_line
     "SERVERLESS_DOMAIN" = var.serverless_domain
     "SERVERLESS_SID" = var.serverless_sid
     "SERVERLESS_ENV_SID" = var.serverless_env_sid

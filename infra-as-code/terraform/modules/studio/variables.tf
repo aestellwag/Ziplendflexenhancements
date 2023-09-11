@@ -25,6 +25,15 @@ variable "workflow_sid_incoming_live_transfers" {
   }
 }
 
+variable "workflow_sid_direct_line" {
+  type        = string
+  description = "SID of the Direct Line workflow"
+  validation {
+    condition     = length(var.workflow_sid_direct_line) > 2 && substr(var.workflow_sid_direct_line, 0, 2) == "WW"
+    error_message = "workflow_sid_direct_line expected to start with \"WW\"."
+  }
+}
+
 variable "workflow_sid_chat_transfer" {
   type        = string
   description = "SID of the Chat Transfer workflow"

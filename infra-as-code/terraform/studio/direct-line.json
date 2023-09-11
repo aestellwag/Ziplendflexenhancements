@@ -1,0 +1,289 @@
+{
+  "description": "Direct Line",
+  "states": [
+    {
+      "name": "Trigger",
+      "type": "trigger",
+      "transitions": [
+        {
+          "event": "incomingMessage"
+        },
+        {
+          "next": "split_based_on_number",
+          "event": "incomingCall"
+        },
+        {
+          "event": "incomingConversationMessage"
+        },
+        {
+          "event": "incomingRequest"
+        },
+        {
+          "event": "incomingParent"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 0,
+          "y": 0
+        }
+      }
+    },
+    {
+      "name": "check_worker_activity",
+      "type": "run-function",
+      "transitions": [
+        {
+          "next": "store_worker_activity",
+          "event": "success"
+        },
+        {
+          "event": "fail"
+        }
+      ],
+      "properties": {
+        "service_sid": "ZS9e9ae7297eacafd7346981a568ae253c",
+        "environment_sid": "ZE53bc0ba1288bb55c330a79ab1e9bcf5f",
+        "offset": {
+          "x": 90,
+          "y": 950
+        },
+        "function_sid": "ZH3da08c8c9b9341f4c68f39dadbb6dc3d",
+        "parameters": [
+          {
+            "value": "{{flow.variables.workerSid}}",
+            "key": "workerSid"
+          },
+          {
+            "value": "WS8daeffed00d3b21fb269e08d399debc4",
+            "key": "workspaceSid"
+          }
+        ],
+        "url": "https://${SERVERLESS_DOMAIN}/workerActivity"
+      }
+    },
+    {
+      "name": "store_worker_activity",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "split_based_on_worker_activity",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "{{widgets.check_worker_activity.body}}",
+            "key": "workerActivity"
+          }
+        ],
+        "offset": {
+          "x": 110,
+          "y": 1240
+        }
+      }
+    },
+    {
+      "name": "split_based_on_worker_activity",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "send_to_flex",
+          "event": "noMatch"
+        },
+        {
+          "next": "forward_call_to_cellphone",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to Offline",
+              "arguments": ["{{widgets.store_worker_activity.workerActivity}}"],
+              "type": "equal_to",
+              "value": "Offline"
+            }
+          ]
+        },
+        {
+          "next": "forward_call_to_cellphone",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to Unavailable",
+              "arguments": ["{{widgets.store_worker_activity.workerActivity}}"],
+              "type": "equal_to",
+              "value": "Unavailable"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{widgets.store_worker_activity.workerActivity}}",
+        "offset": {
+          "x": 60,
+          "y": 1510
+        }
+      }
+    },
+    {
+      "name": "send_to_flex",
+      "type": "send-to-flex",
+      "transitions": [
+        {
+          "event": "callComplete"
+        },
+        {
+          "event": "failedToEnqueue"
+        },
+        {
+          "event": "callFailure"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -70,
+          "y": 1900
+        },
+        "workflow": "${WORKFLOW_SID_INCOMING_LIVE_TRANSFERS}",
+        "channel": "${VOICE_CHANNEL_SID}",
+        "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"{{flow.variables.target}}\",\"workerSid\":\"{{flow.variables.workerSid}}\"}"
+      }
+    },
+    {
+      "name": "forward_call_to_cellphone",
+      "type": "connect-call-to",
+      "transitions": [
+        {
+          "event": "callCompleted"
+        },
+        {
+          "event": "hangup"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 490,
+          "y": 1910
+        },
+        "caller_id": "{{contact.channel.address}}",
+        "noun": "number",
+        "to": "{{flow.variables.workerCellPhone}}",
+        "timeout": 30
+      }
+    },
+    {
+      "name": "split_based_on_number",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "say_play_number_catchAll",
+          "event": "noMatch"
+        },
+        {
+          "next": "update_worker_variables_1",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to +13172225555",
+              "arguments": ["{{trigger.call.To}}"],
+              "type": "equal_to",
+              "value": "+19495160579"
+            }
+          ]
+        },
+        {
+          "next": "update_worker_variables_2",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to +13172225555",
+              "arguments": ["{{trigger.call.To}}"],
+              "type": "equal_to",
+              "value": "+13172225555"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{trigger.call.To}}",
+        "offset": {
+          "x": 30,
+          "y": 250
+        }
+      }
+    },
+    {
+      "name": "update_worker_variables_1",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "check_worker_activity",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "WK9d1dab2cdb0ac34d945540c9415e1dd0",
+            "key": "workerSid"
+          },
+          {
+            "value": "+13172222222",
+            "key": "workerCellPhone"
+          }
+        ],
+        "offset": {
+          "x": -440,
+          "y": 680
+        }
+      }
+    },
+    {
+      "name": "update_worker_variables_2",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "check_worker_activity",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "WK02c8449236c0d245c7558e0fde636405",
+            "key": "workerSid"
+          },
+          {
+            "value": "+13172222222",
+            "key": "workerCellPhone"
+          }
+        ],
+        "offset": {
+          "x": 10,
+          "y": 680
+        }
+      }
+    },
+    {
+      "name": "say_play_number_catchAll",
+      "type": "say-play",
+      "transitions": [
+        {
+          "event": "audioComplete"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -880,
+          "y": 680
+        },
+        "loop": 1,
+        "say": "This is a number we do not currently have associated with a Ziplend employee."
+      }
+    }
+  ],
+  "initial_state": "Trigger",
+  "flags": {
+    "allow_concurrent_calls": true
+  }
+}
