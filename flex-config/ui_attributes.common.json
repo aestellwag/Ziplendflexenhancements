@@ -262,6 +262,9 @@
       },
       "send_to_voice_message": {
         "enabled": true
+      },
+      "ziplend_styles": {
+        "enabled": true
       }
     }
   }

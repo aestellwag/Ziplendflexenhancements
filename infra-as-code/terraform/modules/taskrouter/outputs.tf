@@ -24,7 +24,7 @@ output "workflow_sid_internal_call" {
 }
 
 output "workflow_sid_direct_line" {
-  value = twilio_taskrouter_workspaces_workflows_v1.workflow_direct_line.sid
+  value = twilio_taskrouter_workspaces_workflows_v1.direct_line.sid
   description = "direct line feature workflow SID"
 }
 
