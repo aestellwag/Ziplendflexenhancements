@@ -44,9 +44,7 @@ exports.handler = prepareFlexFunction(requiredParameters, async (context, event,
       callSid,
       params: {
         method: 'POST',
-        url: `https://custom-flex-extensions-serverless-9083-dev.twil.io/features/send-to-voice-message/flex/build-twiml?audioUrl=${encodeURIComponent(
-          voiceURL,
-        )}`,
+        url: `${domain}/features/send-to-voice-message/flex/build-twiml?audioUrl=${encodeURIComponent(voiceURL)}`,
       },
     });
 
