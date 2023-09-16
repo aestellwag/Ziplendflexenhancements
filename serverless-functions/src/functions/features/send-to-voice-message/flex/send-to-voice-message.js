@@ -1,18 +1,10 @@
 const { prepareFlexFunction, extractStandardResponse } = require(Runtime.getFunctions()[
   'common/helpers/function-helper'
 ].path);
-const ConferenceOperations = require(Runtime.getFunctions()['common/twilio-wrappers/conference-participant'].path);
+const VoiceOperations = require(Runtime.getFunctions()['common/twilio-wrappers/programmable-voice'].path);
 const axios = require('axios');
 
 const requiredParameters = [
-  {
-    key: 'conference',
-    purpose: 'conference sid to target for changes',
-  },
-  {
-    key: 'agentParticipant',
-    purpose: 'agents participant sid to target for conference changes',
-  },
   {
     key: 'customerParticipant',
     purpose: 'customers participant sid to target for conference changes',
@@ -24,9 +16,9 @@ const requiredParameters = [
 ];
 exports.handler = prepareFlexFunction(requiredParameters, async (context, event, callback, response, handleError) => {
   try {
-    const { conference, agentParticipant, customerParticipant, voiceMessage } = event;
-    const client = context.getTwilioClient();
+    const { customerParticipant, voiceMessage } = event;
     const voiceURL = voiceMessage;
+    const domain = `https://${context.DOMAIN_NAME}`;
 
     // Since we are testing asset audio paths it will return 200 if the asset is public or 403 if it's private.  Let's also treat 403s as a success
     const modifiedAxios = axios.create({
@@ -42,22 +34,24 @@ exports.handler = prepareFlexFunction(requiredParameters, async (context, event,
     } else {
       console.log('URL is not valid');
       return handleError(
-        `The asset ${voiceURL} - is returning a ${urlResponse}, please check you have the prompts.json asset configured properly`,
+        `The asset is returning a ${urlResponse}, please check you have the prompts.json asset configured properly`,
       );
     }
-    await client.conferences(conference).participants(customerParticipant).update({
-      announceUrl: voiceURL,
-    });
-    // Need to update endConferenceOnExit Flag to false for the agent so it doesn't end the conference when we remove them
-    await client.conferences(conference).participants(agentParticipant).update({
-      endConferenceOnExit: `false`,
-    });
-    const participant = agentParticipant;
-    const result = await ConferenceOperations.removeParticipant({
+
+    const callSid = customerParticipant;
+    const result = await VoiceOperations.updateCall({
       context,
-      conference,
-      participant,
+      callSid,
+      params: {
+        method: 'POST',
+        url: `https://custom-flex-extensions-serverless-9083-dev.twil.io/features/send-to-voice-message/flex/build-twiml?audioUrl=${encodeURIComponent(
+          voiceURL,
+        )}`,
+      },
     });
+
+    console.log('Result = ', result);
+
     response.setStatusCode(result.status);
     response.setBody({
       conference: result.conference,
@@ -66,7 +60,7 @@ exports.handler = prepareFlexFunction(requiredParameters, async (context, event,
     return callback(null, response);
   } catch (error) {
     return handleError(
-      `The asset ${voiceURL} - is returning a ${error}, please check you have the prompts.json asset configured properly`,
+      `The asset is returning a ${error}, please check you have the prompts.json asset configured properly`,
     );
   }
 });

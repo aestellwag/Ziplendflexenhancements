@@ -5,8 +5,6 @@ import ApiService from '../../../../utils/serverless/ApiService';
 
 export interface ParticipantAndMessage {
   success: boolean;
-  conference: string;
-  agentParticipant: string;
   customerParticipant: string;
   voiceMessage: string;
 }
@@ -17,25 +15,10 @@ export interface VoicePrompt {
 }
 
 class SendVoiceMessageService extends ApiService {
-  async sendVoiceMessageAndUpdateParticipant(
-    conference: string,
-    agentParticipant: string,
-    customerParticipant: string,
-    voiceMessage: string,
-  ): Promise<boolean> {
+  async sendVoiceMessageAndUpdateParticipant(customerParticipant: string, voiceMessage: string): Promise<boolean> {
     try {
       // Remove Conference Participant (which is the agent) and also send a voice message
-      const { success } = await this.#sendVoiceMessageAndUpdateParticipant(
-        conference,
-        agentParticipant,
-        customerParticipant,
-        voiceMessage,
-      );
-      if (success) {
-        console.log(`Successfully updated Conference:${conference}`);
-      } else if (!success) {
-        console.log(`Failed to updated Conference:${conference}`);
-      }
+      const { success } = await this.#sendVoiceMessageAndUpdateParticipant(customerParticipant, voiceMessage);
       return success;
     } catch (error) {
       if (error instanceof TypeError) {
@@ -57,8 +40,6 @@ class SendVoiceMessageService extends ApiService {
   }
 
   #sendVoiceMessageAndUpdateParticipant = async (
-    conference: string,
-    agentParticipant: string,
     customerParticipant: string,
     voiceMessage: string,
   ): Promise<ParticipantAndMessage> => {
@@ -66,8 +47,6 @@ class SendVoiceMessageService extends ApiService {
 
     const encodedParams: EncodedParams = {
       Token: encodeURIComponent(manager.user.token),
-      conference: encodeURIComponent(conference),
-      agentParticipant: encodeURIComponent(agentParticipant),
       customerParticipant: encodeURIComponent(customerParticipant),
       voiceMessage: encodeURIComponent(voiceMessage),
     };

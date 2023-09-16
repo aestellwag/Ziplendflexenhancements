@@ -10,8 +10,8 @@
       "prompts": ["PL-Message.mp3", "Mortgage-Group-Message.mp3"]
     },
     {
-      "name": "tompowers",
-      "prompts": ["PL-Message.mp3", "Mortgage-Group-Message.mp3"]
+      "name": "salessupport",
+      "prompts": ["welcomePLmessage.mp3"]
     }
   ]
 }
