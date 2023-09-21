@@ -9,10 +9,11 @@
           "event": "incomingMessage"
         },
         {
-          "next": "split_based_on_number",
+          "next": "set_inboundTrigger_voice",
           "event": "incomingCall"
         },
         {
+          "next": "set_inboundTrigger_sms",
           "event": "incomingConversationMessage"
         },
         {
@@ -45,8 +46,8 @@
         "service_sid": "ZS9e9ae7297eacafd7346981a568ae253c",
         "environment_sid": "ZE53bc0ba1288bb55c330a79ab1e9bcf5f",
         "offset": {
-          "x": 90,
-          "y": 950
+          "x": -70,
+          "y": 1300
         },
         "function_sid": "ZH3da08c8c9b9341f4c68f39dadbb6dc3d",
         "parameters": [
@@ -59,7 +60,7 @@
             "key": "workspaceSid"
           }
         ],
-        "url": "https://${SERVERLESS_DOMAIN}/workerActivity"
+        "url": "https://ziplend-8409.twil.io/workerActivity"
       }
     },
     {
@@ -79,8 +80,8 @@
           }
         ],
         "offset": {
-          "x": 110,
-          "y": 1240
+          "x": -80,
+          "y": 1600
         }
       }
     },
@@ -98,7 +99,9 @@
           "conditions": [
             {
               "friendly_name": "If value equal_to Offline",
-              "arguments": ["{{widgets.store_worker_activity.workerActivity}}"],
+              "arguments": [
+                "{{widgets.store_worker_activity.workerActivity}}"
+              ],
               "type": "equal_to",
               "value": "Offline"
             }
@@ -110,7 +113,9 @@
           "conditions": [
             {
               "friendly_name": "If value equal_to Unavailable",
-              "arguments": ["{{widgets.store_worker_activity.workerActivity}}"],
+              "arguments": [
+                "{{widgets.store_worker_activity.workerActivity}}"
+              ],
               "type": "equal_to",
               "value": "Unavailable"
             }
@@ -120,8 +125,8 @@
       "properties": {
         "input": "{{widgets.store_worker_activity.workerActivity}}",
         "offset": {
-          "x": 60,
-          "y": 1510
+          "x": -80,
+          "y": 1850
         }
       }
     },
@@ -141,8 +146,8 @@
       ],
       "properties": {
         "offset": {
-          "x": -70,
-          "y": 1900
+          "x": -150,
+          "y": 2170
         },
         "workflow": "${WORKFLOW_SID_INCOMING_LIVE_TRANSFERS}",
         "channel": "${VOICE_CHANNEL_SID}",
@@ -162,8 +167,8 @@
       ],
       "properties": {
         "offset": {
-          "x": 490,
-          "y": 1910
+          "x": 410,
+          "y": 2180
         },
         "caller_id": "{{contact.channel.address}}",
         "noun": "number",
@@ -176,30 +181,48 @@
       "type": "split-based-on",
       "transitions": [
         {
-          "next": "say_play_number_catchAll",
+          "next": "check_inboundType_1",
           "event": "noMatch"
-        },
-        {
-          "next": "update_worker_variables_1",
-          "event": "match",
-          "conditions": [
-            {
-              "friendly_name": "If value equal_to +13172225555",
-              "arguments": ["{{trigger.call.To}}"],
-              "type": "equal_to",
-              "value": "+19495160579"
-            }
-          ]
         },
         {
           "next": "update_worker_variables_2",
           "event": "match",
           "conditions": [
             {
-              "friendly_name": "If value equal_to +13172225555",
-              "arguments": ["{{trigger.call.To}}"],
+              "friendly_name": "If value equal_to +19495160579",
+              "arguments": [
+                "{{trigger.call.To}}"
+              ],
               "type": "equal_to",
-              "value": "+13172225555"
+              "value": "+19495160579"
+            }
+          ]
+        },
+        {
+          "next": "update_worker_variables_3",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to +19495160670",
+              "arguments": [
+                "{{trigger.call.To}}"
+              ],
+              "type": "equal_to",
+              "value": "+19495160670"
+            }
+          ]
+        },
+        {
+          "next": "Update_worker_variables_4",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to +19495160274",
+              "arguments": [
+                "{{trigger.call.To}}"
+              ],
+              "type": "equal_to",
+              "value": "+19495160274"
             }
           ]
         }
@@ -207,34 +230,8 @@
       "properties": {
         "input": "{{trigger.call.To}}",
         "offset": {
-          "x": 30,
-          "y": 250
-        }
-      }
-    },
-    {
-      "name": "update_worker_variables_1",
-      "type": "set-variables",
-      "transitions": [
-        {
-          "next": "check_worker_activity",
-          "event": "next"
-        }
-      ],
-      "properties": {
-        "variables": [
-          {
-            "value": "WK9d1dab2cdb0ac34d945540c9415e1dd0",
-            "key": "workerSid"
-          },
-          {
-            "value": "+13172222222",
-            "key": "workerCellPhone"
-          }
-        ],
-        "offset": {
-          "x": -440,
-          "y": 680
+          "x": 0,
+          "y": 470
         }
       }
     },
@@ -243,7 +240,7 @@
       "type": "set-variables",
       "transitions": [
         {
-          "next": "check_worker_activity",
+          "next": "check_inboundType_2",
           "event": "next"
         }
       ],
@@ -259,8 +256,8 @@
           }
         ],
         "offset": {
-          "x": 10,
-          "y": 680
+          "x": -40,
+          "y": 780
         }
       }
     },
@@ -274,11 +271,316 @@
       ],
       "properties": {
         "offset": {
-          "x": -880,
-          "y": 680
+          "x": -1020,
+          "y": 870
         },
         "loop": 1,
         "say": "This is a number we do not currently have associated with a Ziplend employee."
+      }
+    },
+    {
+      "name": "update_worker_variables_3",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "check_inboundType_3",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "WK59d5cdd03f4b6c7f744a8635b7ec57cb",
+            "key": "workerSid"
+          },
+          {
+            "value": "+19492746410",
+            "key": "workerCellPhone"
+          }
+        ],
+        "offset": {
+          "x": 380,
+          "y": 770
+        }
+      }
+    },
+    {
+      "name": "Update_worker_variables_4",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "check_inboundType_3",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "WK02c8449236c0d245c7558e0fde636405",
+            "key": "workerSid"
+          },
+          {
+            "value": "+19495995203",
+            "key": "workerCellPhone"
+          }
+        ],
+        "offset": {
+          "x": 860,
+          "y": 770
+        }
+      }
+    },
+    {
+      "name": "Matt_assistants_send_to_flex",
+      "type": "send-to-flex",
+      "transitions": [
+        {
+          "event": "callComplete"
+        },
+        {
+          "event": "failedToEnqueue"
+        },
+        {
+          "event": "callFailure"
+        }
+      ],
+      "properties": {
+        "waitUrl": "https://custom-flex-extensions-serverless-6162-dev.twil.io/features/callback-and-voicemail/studio/wait-experience?mode=initialize",
+        "offset": {
+          "x": 1010,
+          "y": 1310
+        },
+        "workflow": "${WORKFLOW_SID_INCOMING_LIVE_TRANSFERS}",
+        "channel": "${VOICE_CHANNEL_SID}",
+        "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"{{flow.variables.target}}\",\"workerSid\":\"{{flow.variables.workerSid}}\"}",
+        "waitUrlMethod": "POST"
+      }
+    },
+    {
+      "name": "send_to_flex_sms2",
+      "type": "send-to-flex",
+      "transitions": [
+        {
+          "event": "callComplete"
+        },
+        {
+          "event": "failedToEnqueue"
+        },
+        {
+          "event": "callFailure"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 500,
+          "y": 1310
+        },
+        "workflow": "${WORKFLOW_SID_INCOMING_LIVE_TRANSFERS}",
+        "channel": "${CHAT_CHANNEL_SID}",
+        "attributes": "{\"type\": \"inbound\", \"name\": \"{{trigger.call.From}}\", \"conversations\": {\"hang_up_by\": \"Customer\"},\"target\":\"{{flow.variables.target}}\",\"workerSid\":\"{{flow.variables.workerSid}}\"}"
+      }
+    },
+    {
+      "name": "set_inboundTrigger_sms",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "split_based_on_number",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "sms",
+            "key": "inboundTrigger"
+          }
+        ],
+        "offset": {
+          "x": 400,
+          "y": 210
+        }
+      }
+    },
+    {
+      "name": "set_inboundTrigger_voice",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "split_based_on_number",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "voice",
+            "key": "inboundTrigger"
+          }
+        ],
+        "offset": {
+          "x": -40,
+          "y": 220
+        }
+      }
+    },
+    {
+      "name": "send_message_catchAll",
+      "type": "send-message",
+      "transitions": [
+        {
+          "event": "sent"
+        },
+        {
+          "event": "failed"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -630,
+          "y": 870
+        },
+        "service": "{{trigger.message.InstanceSid}}",
+        "channel": "{{trigger.message.ChannelSid}}",
+        "from": "{{flow.channel.address}}",
+        "message_type": "custom",
+        "to": "{{contact.channel.address}}",
+        "body": "This is a number we do not currently have associated with a Ziplend employee."
+      }
+    },
+    {
+      "name": "check_inboundType_1",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "say_play_number_catchAll",
+          "event": "noMatch"
+        },
+        {
+          "next": "say_play_number_catchAll",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to voice",
+              "arguments": [
+                "{{flow.variables.inboundType}}"
+              ],
+              "type": "equal_to",
+              "value": "voice"
+            }
+          ]
+        },
+        {
+          "next": "send_message_catchAll",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to sms",
+              "arguments": [
+                "{{flow.variables.inboundType}}"
+              ],
+              "type": "equal_to",
+              "value": "sms"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{flow.variables.inboundType}}",
+        "offset": {
+          "x": -850,
+          "y": 610
+        }
+      }
+    },
+    {
+      "name": "check_inboundType_3",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "Matt_assistants_send_to_flex",
+          "event": "noMatch"
+        },
+        {
+          "next": "send_to_flex_sms2",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to sms",
+              "arguments": [
+                "{{flow.variables.inboundType}}"
+              ],
+              "type": "equal_to",
+              "value": "sms"
+            }
+          ]
+        },
+        {
+          "next": "Matt_assistants_send_to_flex",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to voice",
+              "arguments": [
+                "{{flow.variables.inboundType}}"
+              ],
+              "type": "equal_to",
+              "value": "voice"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{flow.variables.inboundType}}",
+        "offset": {
+          "x": 900,
+          "y": 1030
+        }
+      }
+    },
+    {
+      "name": "check_inboundType_2",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "check_worker_activity",
+          "event": "noMatch"
+        },
+        {
+          "next": "check_worker_activity",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to voice",
+              "arguments": [
+                "{{flow.variables.inboundType}}"
+              ],
+              "type": "equal_to",
+              "value": "voice"
+            }
+          ]
+        },
+        {
+          "next": "send_to_flex_sms2",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "If value equal_to sms",
+              "arguments": [
+                "{{flow.variables.inboundType}}"
+              ],
+              "type": "equal_to",
+              "value": "sms"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{flow.variables.inboundType}}",
+        "offset": {
+          "x": -120,
+          "y": 1000
+        }
       }
     }
   ],
